@@ -1,25 +1,13 @@
-function MediaPlayer(config) {
-    this.media = config.el;
-}
-
-MediaPlayer.prototype.play = function() {
-    this.media.play();
-};
-
-MediaPlayer.prototype.pause = function() {
-    this.media.pause();
-};
-
-MediaPlayer.prototype.togglePlay = function() {
-    if (this.media.paused) {
-        this.play();
-    } else {
-        this.pause();
-    }
-};
+import MediaPlayer from "./MediaPlayer.js";
+import AutoPlay from "./plugins/AutoPlay.js";
 
 const video = document.querySelector('video');
-const player = new MediaPlayer({ el: video });
+const player = new MediaPlayer({ el: video, plugins: [
+    new AutoPlay()
+] });
 
-const button = document.querySelector('button');
-button.onclick = () => player.togglePlay();
+const togglePlay = document.querySelector('#togglePlay');
+const toggleMuteButton = document.querySelector('#toggleMute');
+
+togglePlay.onclick = () => player.togglePlay();
+toggleMuteButton.onclick = () => player.toggleMute();
