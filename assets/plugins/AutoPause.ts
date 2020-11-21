@@ -1,4 +1,9 @@
+import MediaPlayer from "../MediaPlayer";
+
 class AutoPause {
+
+    private threshold : number;
+    player : MediaPlayer;
 
     constructor() {
         this.threshold = 0.25;
@@ -22,7 +27,7 @@ class AutoPause {
     }
 
     // En el handler nos pasa una lista de objetos que estamos observando, en este caso solo hay uno
-    handleIntersection(entries) {
+    private handleIntersection(entries: IntersectionObserverEntry[]) {
 
         const entry = entries[0];
 
@@ -37,7 +42,7 @@ class AutoPause {
 
     }
 
-    handleVisibilityChange() {
+    private handleVisibilityChange() {
 
         const isVisible = document.visibilityState === "visible";
 

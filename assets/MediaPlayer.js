@@ -1,60 +1,70 @@
-function MediaPlayer(config) {
-    this.media = config.el;
-    this.plugins = config.plugins || [];
+class MediaPlayer {
 
-    this._initPugins();
-}
+    constructor(config) {
+        this.media = config.el;
+        this.plugins = config.plugins || [];
 
-MediaPlayer.prototype._initPugins = function() {
+        this._initPugins();
+    }
 
-    const player = {
+    _initPugins() {
 
-        play: () => this.play(),
-        pause: () => this.pause(),
-        media: this.media,
+        const player = {
+            play: () => this.play(),
+            pause: () => this.pause(),
+            media: this.media,
 
-        get muted() {
-            return this.media.muted;
-        },
+            get muted() {
+                return this.media.muted;
+            },
 
-        set muted(value) {
-            this.media.muted = value;
+            set muted(value) {
+                this.media.muted = value;
+            }
+        };
+
+        this.plugins.forEach(plugin => {
+            plugin.run(player);
+        });
+
+    }
+
+    play() {
+
+        this.media.play();
+    }
+
+    pause() {
+        this.media.pause();
+    }
+
+    togglePlay() {
+        if (this.media.paused) {
+            this.play();
+        } else {
+            this.pause();
         }
-
     }
 
-    this.plugins.forEach(plugin => {
-        plugin.run(player);
-    });
+    mute() {
+        this.media.muted = true;
+    }
 
+    unmute() {
+        this.media.muted = false;
+    }
+
+    toggleMute() {
+        this.media.muted = !this.media.muted;
+    }
+    
 }
 
-MediaPlayer.prototype.play = function() {
-    this.media.play();
-};
 
-MediaPlayer.prototype.pause = function() {
-    this.media.pause();
-};
 
-MediaPlayer.prototype.togglePlay = function() {
-    if (this.media.paused) {
-        this.play();
-    } else {
-        this.pause();
-    }
-};
 
-MediaPlayer.prototype.mute = function() {
-    this.media.muted = true;
-};
 
-MediaPlayer.prototype.unmute = function() {
-    this.media.muted = false;
-};
 
-MediaPlayer.prototype.toggleMute = function() {
-    this.media.muted = !this.media.muted;
-};
+
 
 export default MediaPlayer;
